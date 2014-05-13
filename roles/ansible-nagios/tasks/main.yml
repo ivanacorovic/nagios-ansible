@@ -86,7 +86,7 @@
     regexp='' 
     insertafter=EOF
     line='cfg_file=/usr/local/nagios/etc/objects/server.cfg'
-    present=true
+    state=present
 
 - name: Include commands2.cfg in nagios.cfg
   sudo: true
@@ -95,7 +95,7 @@
     regexp='' 
     insertafter=EOF
     line='cfg_file=/usr/local/nagios/etc/objects/commands2.cfg'
-    present=true
+    state=preset
 
 - name: restart nagios
   sudo: true

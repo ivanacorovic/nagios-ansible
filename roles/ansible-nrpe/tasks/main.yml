@@ -44,3 +44,6 @@
 
 - tasks:
   include: elasticsearch.yml
+
+- tasks:
+  include: nrpecommands.yml
