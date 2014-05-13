@@ -1,12 +1,3 @@
-# - hosts: nagios-doctor 
-#   user: root
-#   vars_files:
-#     - vars/main.yml
-#   # user: intentionally blank
-#   roles:
-#     - { role: create-deploy-user }
-
-
 - hosts: nagios-doctor
   vars_files:
     - vars/main.yml

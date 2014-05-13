@@ -17,9 +17,13 @@
   sudo: true
   command: "make all chdir={{nagios_build_directory}}/nagios-plugins-{{nagios_plugins_version}}"
 
-- name: make
+- name: make install
   sudo: true
   command: "make install chdir={{nagios_build_directory}}/nagios-plugins-{{nagios_plugins_version}}"
+
+- name: copy nagios.configure
+  sudo: true
+  copy: src=/etc/apache2/conf.d/nagios.conf dest=/etc/apache2/sites-available/nagios
 
 - name: link sites-available/nagis to sites-enabled/nagios
   sudo: true
