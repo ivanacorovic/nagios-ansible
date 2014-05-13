@@ -3,7 +3,7 @@
   file: path=/testf state=directory
 
 # Update and install dependent packages.
-- name: install nagios' dependent packages
+- name: install nagios dependent packages
   sudo: true
   apt: pkg={{ item }} state=present force=true update_cache=yes
   with_items: nagios_packages
@@ -70,6 +70,32 @@
 #     owner=nagios
 #     group=nagios
 #     mode=640
+
+- name: create server.cfg
+  sudo: true
+  template: src=../templates/server.cfg.j2 dest=/usr/local/nagios/etc/objects/server.cfg
+
+- name: create server.cfg
+  sudo: true
+  template: src=../templates/commands2.cfg.j2 dest=/usr/local/nagios/etc/objects/commands2.cfg
+
+- name: Include server.cfg in nagios.cfg
+  sudo: true
+  lineinfile: >
+    dest=/usr/local/nagios/etc/nagios.cfg 
+    regexp='' 
+    insertafter=EOF
+    line='cfg_file=/usr/local/nagios/etc/objects/server.cfg'
+    present=true
+
+- name: Include commands2.cfg in nagios.cfg
+  sudo: true
+  lineinfile: >
+    dest=/usr/local/nagios/etc/nagios.cfg 
+    regexp='' 
+    insertafter=EOF
+    line='cfg_file=/usr/local/nagios/etc/objects/commands2.cfg'
+    present=true
 
 - name: restart nagios
   sudo: true
