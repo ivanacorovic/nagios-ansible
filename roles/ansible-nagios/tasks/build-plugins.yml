@@ -8,7 +8,6 @@
   sudo: true
   command: "tar -xvf /tmp/nagios-plugins-{{nagios_plugins_version}}.tar.gz -C /tmp/"
 
-
 - name: configure
   sudo: true
   command: "./configure --with-nagios-user=nagios --with-nagios-group=nagios chdir={{nagios_build_directory}}/nagios-plugins-{{nagios_plugins_version}}"

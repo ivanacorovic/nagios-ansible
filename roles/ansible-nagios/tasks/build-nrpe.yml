@@ -10,7 +10,7 @@
 
 - name: untar the tarball
   sudo: true
-  command: "tar -xvf /tmp/nrpe-{{nagios_nrpe_version}}.tar.gz -C /tmp/"
+  command: "tar -xvf {{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}}.tar.gz -C {{nrpe_build_directory}}"
 
 - name: libssl-dev depackage
   sudo: true
@@ -22,23 +22,27 @@
 
 - name: configure
   sudo: true
-  command: "./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu chdir=/tmp/nrpe-{{nagios_nrpe_version}}"
+  command: "./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu chdir={{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}}"
 
 - name: make all
   sudo: true
-  command: "make all chdir={{nagios_build_directory}}/nrpe-{{nagios_nrpe_version}}"
+  command: "make all chdir={{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}}"
 
 - name: make install
   sudo: true
-  command: "make install chdir={{nagios_build_directory}}/nrpe-{{nagios_nrpe_version}} "
+  command: "make install chdir={{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}} "
 
 - name: make install daemon
   sudo: true
-  command: "make install-daemon chdir={{nagios_build_directory}}/nrpe-{{nagios_nrpe_version}} "
+  command: "make install-daemon chdir={{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}} "
+
+- name: make install daemon config
+  sudo: true
+  command: "make install-daemon-config chdir={{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}} "
 
 - name: make install-xinetd
   sudo: true
-  command: "make install-xinetd chdir={{nagios_build_directory}}/nrpe-{{nagios_nrpe_version}} "
+  command: "make install-xinetd chdir={{nrpe_build_directory}}/nrpe-{{nagios_nrpe_version}} "
 
 - name: chmod  nagios:nagios /usr/local/nagios
   sudo: true
@@ -54,7 +58,7 @@
 
 - name: Xinetd nrpe configuration
   sudo: true
-  lineinfile: dest=/etc/xinetd.d/nrpe regexp='^only_from       = 127\.0\.0\.1' line='only_from       = 127\.0\.0\.1 {{nagios_host}}' 
+  lineinfile: dest=/etc/xinetd.d/nrpe regexp='^only_from       = 127\.0\.0\.1' insertafter='only_from       = 127.0.0.1'  line=' {{nagios_host_ip}}' state=present
 
 - name:   add iptable
   sudo: true
